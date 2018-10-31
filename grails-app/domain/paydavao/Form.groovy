@@ -7,6 +7,7 @@ class Form {
     String mobileNumber
     String typeOfFee
     String optn
+    Date dateCreated = new Date()
 
     static constraints = {
     	payorName(nullable:true)
