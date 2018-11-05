@@ -38,7 +38,7 @@ class FormController {
         def captchaResponse = httpService.verifyCaptcha(captcha)
         def response = httpService.verifyPaymentDetails(params)
         println "captchaResponse:" + captchaResponse
-        println "response:" + response
+        println "response of httpService.verifyPaymentDetails:" + response
 
         if (captchaResponse.success == true) {
             def result = response?.get("Result")
@@ -58,7 +58,7 @@ class FormController {
                     redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
 
                 } catch (ValidationException e) {
-                	println e
+                	println "ValidationException:" + e
                     respond form.errors, view:'index'
                     return
                 }
@@ -96,7 +96,7 @@ class FormController {
             def terminalID = "52"
             def referenceCode = params.referenceCode
             def requestSecurityToken = httpService.generateSecurityToken(amount, terminalID, referenceCode)
-            println "requestSecurityToken" + requestSecurityToken
+            println "requestSecurityToken:" + requestSecurityToken
             def result = httpService.generateResponseToken(params, requestSecurityToken)
             println "result:" + result
             if (result != params?.securityToken) {

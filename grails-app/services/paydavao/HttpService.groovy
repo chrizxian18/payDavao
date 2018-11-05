@@ -21,7 +21,7 @@ class HttpService {
 
     def verifyPaymentDetails(params) {
 
-    	println "service.params:" + params
+    	println "verifyPaymentDetails.params:" + params
     	def refnum = params.optn
 		def type = params.typeOfFee
 		def provider = "DBP"
