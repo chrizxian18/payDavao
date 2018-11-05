@@ -28,11 +28,11 @@
 		<g:form controller="form" enctype="multipart/form-data" method="post" >
 		  <div class="form-group">
 		    <label for="payorName">Payor Name</label>
-		    <input type="text" name="payorName"class="form-control" value="${params.payorName}">
+		    <input required="required" type="text" name="payorName"class="form-control" value="${params.payorName}">
 		  </div>
 		  <div class="form-group">
 		    <label for="email">Email Address</label>
-		    <input type="email" name="email" class="form-control" aria-describedby="emailHelp">
+		    <input required="required" type="email" name="email" class="form-control" aria-describedby="emailHelp">
 		  </div>
 		  <div class="form-group">
 		    <label for="mobileNumber">Mobile Number</label>
@@ -48,7 +48,7 @@
 		    </select>
 		  </div>
 		  <div class="form-group">
-		    <label for="optn">Enter your Online Payment Transaction Number (OPTN)</label>
+		    <label for="optn">Enter your Online Payment Transaction Number (OPTN) / Reference Number</label>
 		    <input  required="required" name="optn" type="text" class="form-control" maxlength="29">
 		  </div>
 		  <br>
