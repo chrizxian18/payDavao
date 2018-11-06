@@ -36,11 +36,11 @@ class FormController {
         println "params:" + params
         def captcha = params.get("g-recaptcha-response")
         def captchaResponse = httpService.verifyCaptcha(captcha)
-        def response = httpService.verifyPaymentDetails(params)
         println "captchaResponse:" + captchaResponse
-        println "response of httpService.verifyPaymentDetails:" + response
 
         if (captchaResponse.success == true) {
+            def response = httpService.verifyPaymentDetails(params)
+            println "response of httpService.verifyPaymentDetails:" + response
             def result = response?.get("Result")
             println "result of verfication:" + result
             if (response == null) {
@@ -65,7 +65,7 @@ class FormController {
                     println "success, params:" + params + "form: ${form}"
             } 
             else {
-                flash.error = "Error:" + response.message
+                flash.error = "Error: Invalid Reference Number!" //+ response.message
                 println "Error:" + response.message
                 redirect action:"index"
             }
