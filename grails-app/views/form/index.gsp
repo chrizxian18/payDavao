@@ -18,11 +18,11 @@
             <div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${flash.error}</div>
         </g:if>
         <g:hasErrors bean="${form}">
-			<dvi role="alert"style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i>
+			<div role="alert"style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i>
 			<g:eachError bean="${form}" var="error">
 			<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/>
 			</g:eachError>
-		</div>
+			</div>
 		</g:hasErrors>
 	  	<br>
 		<g:form controller="form" enctype="multipart/form-data" method="post" >
