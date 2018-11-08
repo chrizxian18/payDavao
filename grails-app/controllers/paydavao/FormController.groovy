@@ -44,9 +44,10 @@ class FormController {
             def result = response?.get("Result")
             println "result of verfication:" + result
             if (response == null) {
-                flash.error = "Failed to access the City Government Gateway Server"
                 println "Failed to access the City Government Gateway Server"
+                flash.error = "Failed to access the City Government Gateway Server"
                 redirect action:"index"
+                return
             }
             else if (result == 1) {
                 
@@ -65,14 +66,16 @@ class FormController {
                     println "success, params:" + params + "form: ${form}"
             } 
             else {
-                flash.error = "Error: Invalid Reference Number!" //+ response.message
+                flash.error = "Error: Invalid OPTN / Reference Number!" //+ response.message
                 println "Error:" + response.message
-                redirect action:"index"
+                redirect action:"fail"
+                return
             }
         }
         else {
             flash.error = "Prove that you are not a robot!" 
                 redirect action:"index"
+                return
         }
     }
 

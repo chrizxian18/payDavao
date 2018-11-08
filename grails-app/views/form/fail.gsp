@@ -18,10 +18,11 @@
 	            <div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${flash.error}</div>
 	        </g:if>
 		  	<br>
+			<g:if test="${message}">
+		  		<div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${message}</div>
+		  	</g:if>
 
-		  	<div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${message}</div>
-
-		  	<div class="text-center" style="margin-top:25%; margin-left:-50px;"><g:link class="btn btn-primary" action="index">Go back to main page</g:link></div>
+		  	<div class="text-center" style="margin-top:15%; margin-left:-50px;"><g:link class="btn btn-primary" action="index">Go back to main page</g:link></div>
 		  	
 	  </div>
 	</div>

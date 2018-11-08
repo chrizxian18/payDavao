@@ -5,6 +5,15 @@
 	<asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
 	<script src='https://www.google.com/recaptcha/api.js'></script>
+	<style type="text/css">
+            .col-8 {
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+            .row {
+				margin-bottom: 1em;
+            }
+        </style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -25,8 +34,51 @@
 				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${messageSuccess}</div>
 			 </g:if>
 
-            <div class="text-center" style="margin-top:25%; margin-left:-50px;"><g:link class="btn btn-primary" action="index">Click here to make another transaction</g:link></div>
-                
+			<g:if test ="${params.retrievalReferenceCode}">
+				  <div class="row">
+	                <div class="col-4"></div>
+	                <div class="col-4"> </div>
+	            </div>
+	            <div class="row">
+	                <div class="col-2"></div>
+	                <div class="col-8" style="background-color: #FFFFFF; border-style: none; margin-left:-30px;">
+	                       <h4 class="text-center">Summary of the Transaction</h4>
+	                </div>
+	            </div>
+	            <div class="row" style="margin-bottom: 9px;">
+	                <div class="col-2"></div>
+	                <div class="col-8" style="background-color: #FFFFFF; border-style: none;">
+	                    <div class="row">
+	                        <label for="senderFirstName">Merchant Name:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="${params.merchantName}" />
+	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Reference Code:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="${params.referenceCode}" />
+	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Retrieval Reference Code:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="${params.retrievalReferenceCode}" />
+	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Amount:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="Php ${params.amount}" />
+	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Service Charge Fee:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="Php ${params.serviceChargeFee}" />
+	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Total:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="Php ${params.total}" />
+	                    </div>
+	                </div>
+	            </div>
+	        </g:if>
+
+            <div class="text-center" style="margin-top:2%; margin-left:-50px;"><g:link class="btn btn-primary" action="index">Click here to make another transaction</g:link>
+            </div>
+            <div><br> <br> <br></div>
 	  </div>
 	</div>
 </body>
