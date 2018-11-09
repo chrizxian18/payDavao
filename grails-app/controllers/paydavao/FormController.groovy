@@ -66,9 +66,9 @@ class FormController {
                     println "success, params:" + params + "form: ${form}"
             } 
             else {
-                flash.error = "Error: Invalid OPTN / Reference Number!" //+ response.message
+                def message = "Error: Invalid OPTN / Reference Number!" //+ response.message
                 println "Error:" + response.message
-                redirect action:"fail"
+                redirect (action:"fail", params:[message:message])
                 return
             }
         }
