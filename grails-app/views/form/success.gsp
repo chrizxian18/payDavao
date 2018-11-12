@@ -72,6 +72,10 @@
 	                        <label for="senderFirstName">Total:</label>
 	                        <input type="text" readonly="readonly" class="form-control" value="Php ${params.total}" />
 	                    </div>
+	                    <div class="row">
+	                        <label for="senderFirstName">Date/Time:</label>
+	                        <input type="text" readonly="readonly" class="form-control" value="${params.date}" />
+	                    </div>
 	                </div>
 	            </div>
 	        </g:if>

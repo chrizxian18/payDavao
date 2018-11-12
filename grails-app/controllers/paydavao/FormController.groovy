@@ -85,7 +85,7 @@ class FormController {
     //    def ipgResult = httpService.testSendToIpg()
     //    println "ipgResult of test:" + ipgResult
     //    println "${ipgResult.amount}"
-    //    // redirect(url:"http://192.168.48.114:9090/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
+    //    // redirect(url:"http://192.168.48.114:8080/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
     //    redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
     // }
 
