@@ -127,9 +127,10 @@ class HttpService {
         return payloadMap
     }
 
-    // def testSendToIpg() {
+    // def testSendToIpg(params) {
     //     def amount = "3399.66"
-    //     def referenceCode = "765432100006666000530192350803434"
+    //     // def referenceCode = "765432100006666000530192350803423"
+    //     def referenceCode = params.id
     //     def serviceType = "REALPROPERTY"
     //     def terminalID = "52"
     //     def securityToken = generateSecurityToken(amount, terminalID, referenceCode)
