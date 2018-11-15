@@ -21,38 +21,38 @@ class HttpService {
 
     def verifyPaymentDetails(params) {
 
-    	println "verifyPaymentDetails.params:" + params
+    	log.info "verifyPaymentDetails.params:" + params
     	def refnum = params.optn
 		def type = params.typeOfFee
 		def provider = "DBP"
 		def tokenid = "489a6ac47fb47d1ddea52b39fac1bb14"
         String payload = "refnum=${refnum}&type=${type}&provider=${provider}&tokenid=${tokenid}"
-        println "payload:" + payload
+        log.info "payload:" + payload
         HttpClient client = null;
         PostMethod method = null;
         String result = "";
         client = new HttpClient();
-        method = new PostMethod("http://122.2.3.140/verify.php");
+        method = new PostMethod("http://122.2.3.14033/verify.php");
         org.apache.commons.httpclient.methods.StringRequestEntity requestEntity = new org.apache.commons.httpclient.methods.StringRequestEntity(payload, "application/x-www-form-urlencoded", "UTF-8");
         try {
     		method.setRequestEntity(requestEntity);
     		client.executeMethod(method);                
     		result = method.getResponseBodyAsString();
-            println "result of method:" + result
+            log.info "result of method:" + result
     		def slurper = new groovy.json.JsonSlurper(type: JsonParserType.LAX)
     		def parsedData = slurper.parseText(result)
-            println "parsedData:" + parsedData
+            log.info "parsedData:" + parsedData
     		return parsedData
         }
         catch(Exception e) {
-            println "Exception:" + e
+            log.info "Exception:" + e
         }
     }
 
 
      def postPaymentDetails(params) {
 
-        println "postPaymentDetails.params:" + params
+        log.info "postPaymentDetails.params:" + params
         def refnum = params.referenceCode
         def amount = params.total //amount collected
         def date = new Date()
@@ -62,7 +62,7 @@ class HttpService {
         def provider = "DBP"
         def tokenid = "489a6ac47fb47d1ddea52b39fac1bb14"
         String payload = "refnum=${refnum}&amount=${amount}&transactiondate=${transactiondate}&transactionid=${transactionid}&type=${type}&provider=${provider}&tokenid=${tokenid}"
-        println "payload:" + payload
+        log.info "payload:" + payload
         HttpClient client = null;
         PostMethod method = null;
         String result = "";
@@ -73,19 +73,19 @@ class HttpService {
             method.setRequestEntity(requestEntity);
             client.executeMethod(method);                
             result = method.getResponseBodyAsString();
-            println "result of method:" + result
+            log.info "result of method:" + result
             def slurper = new groovy.json.JsonSlurper(type: JsonParserType.LAX)
             def parsedData = slurper.parseText(result)
-            println "response after posting paymentDetails:" + parsedData
+            log.info "response after posting paymentDetails:" + parsedData
             return parsedData
         }
         catch(Exception e) {
-            println "Exception:" + e
+            log.info "Exception:" + e
         }
     }
 
     def verifyCaptcha(params) {
-        println "verifyCaptcha.params:" + params
+        log.info "verifyCaptcha.params:" + params
         def response = params
         def secret = "6LfJkXYUAAAAAP6GARbw0xNttpYg1vdWUZKVtrZV"
         String payload = "response=${params}&secret=${secret}"
@@ -99,19 +99,19 @@ class HttpService {
             method.setRequestEntity(requestEntity);
             client.executeMethod(method);                
             result = method.getResponseBodyAsString();
-            println "result of method:" + result
+            log.info "result of method:" + result
             def slurper = new groovy.json.JsonSlurper()
             def parsedData = slurper.parseText(result)
             return parsedData
         }
         catch(Exception e) {
-            println "Exception:" + e
+            log.info "Exception:" + e
         }
     }
 
     def sendToIpg(params, response) {
-        println "params in sendToIpg:" + params
-        println "response in sendToIpg:" + response
+        log.info "params in sendToIpg:" + params
+        log.info "response in sendToIpg:" + response
         def amount = response?.amount
         def referenceCode = params?.optn
         def serviceType = params?.typeOfFee
@@ -123,7 +123,7 @@ class HttpService {
          payloadMap.referenceCode = referenceCode
          payloadMap.serviceType = serviceType
          payloadMap.securityToken = securityToken
-        println "payload:" + payloadMap
+        log.info "payload:" + payloadMap
         return payloadMap
     }
 
@@ -140,7 +140,7 @@ class HttpService {
     //      payloadMap.referenceCode = referenceCode
     //      payloadMap.serviceType = serviceType
     //      payloadMap.securityToken = securityToken
-    //     println "payload:" + payloadMap
+    //     log.info "payload:" + payloadMap
     //     return payloadMap
     // }
 
@@ -148,20 +148,20 @@ class HttpService {
     def generateSecurityToken = { amount, terminalID, referenceCode ->
         def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249"
         String requestToken = DigestUtils.sha1Hex(terminalID + referenceCode + amount + "{" + transactionKey + "}");
-        println "requestToken:" + requestToken
+        log.info "requestToken:" + requestToken
         return requestToken
     }
 
      def generateResponseToken(params, requestSecurityToken) {
-        println "generateResponseToken.params:" + params
-        println "generateResponseToken.requestSecurityToken:" + requestSecurityToken
+        log.info "generateResponseToken.params:" + params
+        log.info "generateResponseToken.requestSecurityToken:" + requestSecurityToken
         def requestToken = requestSecurityToken 
         def amount = params.amount
         def retrievalReferenceCode = params.retrievalReferenceCode
         def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249"
         // String responseToken = DigestUtils.sha1Hex(requestToken + amount + retrievalReferenceCode + "{" + transactionKey + "}");
         String responseToken = DigestUtils.sha1Hex(requestToken + "{" + transactionKey + "}");
-        println "responseToken:" + responseToken
+        log.info "responseToken:" + responseToken
         return responseToken
     }
 }

@@ -33,18 +33,18 @@ class FormController {
             notFound()
             return
         }
-        println "params:" + params
+        log.info "params:" + params
         def captcha = params.get("g-recaptcha-response")
         def captchaResponse = httpService.verifyCaptcha(captcha)
-        println "captchaResponse:" + captchaResponse
+        log.info "captchaResponse:" + captchaResponse
 
         if (captchaResponse.success == true) {
             def response = httpService.verifyPaymentDetails(params)
-            println "response of httpService.verifyPaymentDetails:" + response
+            log.info "response of httpService.verifyPaymentDetails:" + response
             def result = response?.get("Result")
-            println "result of verfication:" + result
+            log.info "result of verfication:" + result
             if (response == null) {
-                println "Failed to access the City Government Gateway Server"
+                log.info "Failed to access the City Government Gateway Server"
                 flash.error = "Failed to access the City Government Gateway Server"
                 redirect action:"index"
                 return
@@ -52,22 +52,22 @@ class FormController {
             else if (result == 1) {
                 
                 try {
-                    println "params when saving" + params
+                    log.info "params when saving" + params
                     formService.save(form)
                     def ipgResult = httpService.sendToIpg(params,response)
                     // redirect(url:"http://192.168.48.114:9090/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
                     redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
 
                 } catch (ValidationException e) {
-                	println "ValidationException:" + e
+                	log.info "ValidationException:" + e
                     respond form.errors, view:'index'
                     return
                 }
-                    println "success, params:" + params + "form: ${form}"
+                    log.info "success, params:" + params + "form: ${form}"
             } 
             else {
                 def message = "Error: Invalid OPTN / Reference Number!" //+ response.message
-                println "Error:" + response.message
+                log.info "Error:" + response.message
                 redirect (action:"fail", params:[message:message])
                 return
             }
@@ -81,15 +81,15 @@ class FormController {
 
 
     // def test(params) {
-    //     println "params: " + params.id
+    //     log.info "params: " + params.id
     //     if (params.id == null) {
     //         render "Add Reference Code in the URL. Example: http://192.168.48.114:9090/form/test/12345" 
     //             return
     //     }
     //     else {
     //         def ipgResult = httpService.testSendToIpg(params)
-    //         println "ipgResult of test:" + ipgResult
-    //         println "${ipgResult.amount}"
+    //         log.info "ipgResult of test:" + ipgResult
+    //         log.info "${ipgResult.amount}"
     //         // redirect(url:"http://192.168.48.114:8080/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
     //         redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
     //     }
@@ -97,7 +97,7 @@ class FormController {
 
 
     def success(params) {
-        println "params in successPage:" + params
+        log.info "params in successPage:" + params
         def message = ""
         // ['referenceCode':'M8751118028067', 'serviceType':'MISCELLANEOUS', 'amount':'230.00', 'serviceChargeFeeText':'PHP4.60', 'securityToken':'971dbdc497b7006e01464a6c78394623a99f015f', 'disableEmailClient':'false', 'merchantName':'LGU DAVAO - IPG', 'serviceFeeLabel':'Service Fee', 'serviceChargeFee':'4.60', 'total':'234.6', 'interceptor':'verify', 'retrievalReferenceCode':'830416029514', 'message':'Successful approval/completion.', 'action':'success', 'format':null, 'controller':'form']
         if (params.retrievalReferenceCode) {
@@ -105,22 +105,22 @@ class FormController {
             def terminalID = "52"
             def referenceCode = params.referenceCode
             def requestSecurityToken = httpService.generateSecurityToken(amount, terminalID, referenceCode)
-            println "requestSecurityToken:" + requestSecurityToken
+            log.info "requestSecurityToken:" + requestSecurityToken
             def result = httpService.generateResponseToken(params, requestSecurityToken)
-            println "result:" + result
+            log.info "result:" + result
             if (result != params?.securityToken) {
                 message = "Invalid securityToken!"
                 [message:message]
             }
             else {
                 def response = httpService.postPaymentDetails(params)
-                println "response:" + response
+                log.info "response:" + response
                 message = "Payment Successful"
                  [messageSuccess:message]
             }
         }
         else {
-            println "No RRN"
+            log.info "No RRN"
             message = "RRN not found!"
             [message:message]
         }
@@ -128,7 +128,7 @@ class FormController {
     }
 
     def fail(params) {
-        println "params in failPage:" + params
+        log.info "params in failPage:" + params
         [message:params.message]
     }
 
