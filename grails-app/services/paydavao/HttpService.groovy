@@ -134,12 +134,15 @@ class HttpService {
     //     def serviceType = "REALPROPERTY"
     //     def terminalID = "52"
     //     def securityToken = generateSecurityToken(amount, terminalID, referenceCode)
+    //     // def currency = "USD"
+    //     def currency = "PHP"
     //     def payloadMap = [:]
     //      payloadMap.amount = amount
     //      payloadMap.terminalID = terminalID
     //      payloadMap.referenceCode = referenceCode
     //      payloadMap.serviceType = serviceType
     //      payloadMap.securityToken = securityToken
+    //      payloadMap.currency = currency
     //     log.info "payload:" + payloadMap
     //     return payloadMap
     // }

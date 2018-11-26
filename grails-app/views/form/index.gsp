@@ -5,6 +5,7 @@
 	<asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
 	<script src='https://www.google.com/recaptcha/api.js'></script>
+	<asset:javascript src="application.js"/>
 </head>
 <body>
 	<div class="container-fluid">
@@ -55,8 +56,38 @@
 		  <div class="form-group">
 		  	<div class="g-recaptcha" data-sitekey="6LfJkXYUAAAAAFRpa8Itf9zrxE_ZEILLbg2rJsOv"></div>
 		  </div>
-		  	<g:actionSubmit action="save" value="Proceed to Payment" class="btn btn-primary" />
+		  	
+		  	<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmSubmitModal">
+			  Proceed to Payment
+			</button>
+			<!-- Modal -->
+			<div class="modal fade" id="confirmSubmitModal" tabindex="-1" role="dialog" aria-labelledby="confirmSubmitModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="confirmSubmitModalLabel">Proceed to Payment</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        Are you sure?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+			        %{-- <button type="button" class="btn btn-primary">Save changes</button> --}%
+			        <g:actionSubmit action="save" value="Yes" class="btn btn-primary" />
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			%{-- End Modal --}%
+
 		</g:form>
+
+
+
 	  </div>
 	</div>
 </body>

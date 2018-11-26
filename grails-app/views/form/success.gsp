@@ -32,6 +32,8 @@
 			</g:if>
 			<g:if test ="${messageSuccess}">
 				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${messageSuccess}</div>
+				<br>
+				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> Kindly go to the City Treasurer Office for your Official Receipt</div>
 			 </g:if>
 
 			<g:if test ="${params.retrievalReferenceCode}">
