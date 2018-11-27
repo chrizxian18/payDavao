@@ -32,7 +32,8 @@ class HttpService {
         PostMethod method = null;
         String result = "";
         client = new HttpClient();
-        method = new PostMethod("http://122.2.3.14033/verify.php");
+        // method = new PostMethod("http://122.2.3.14033/verify.php");
+        method = new PostMethod("http://203.177.50.113/verify.php");
         org.apache.commons.httpclient.methods.StringRequestEntity requestEntity = new org.apache.commons.httpclient.methods.StringRequestEntity(payload, "application/x-www-form-urlencoded", "UTF-8");
         try {
     		method.setRequestEntity(requestEntity);
@@ -54,7 +55,7 @@ class HttpService {
 
         log.info "postPaymentDetails.params:" + params
         def refnum = params.referenceCode
-        def amount = params.total //amount collected
+        def amount = params.amount //amount without service charge
         def date = new Date()
         def transactiondate = date.format("yyyy-MM-dd' 'HH:mm:ss")
         def transactionid = params.retrievalReferenceCode
@@ -67,7 +68,8 @@ class HttpService {
         PostMethod method = null;
         String result = "";
         client = new HttpClient();
-        method = new PostMethod("http://122.2.3.140/postpayment.php");
+        // method = new PostMethod("http://122.2.3.140/postpayment.php");
+        method = new PostMethod("http://203.177.50.113/postpayment.php");
         org.apache.commons.httpclient.methods.StringRequestEntity requestEntity = new org.apache.commons.httpclient.methods.StringRequestEntity(payload, "application/x-www-form-urlencoded", "UTF-8");
         try {
             method.setRequestEntity(requestEntity);
