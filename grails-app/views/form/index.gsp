@@ -86,7 +86,17 @@
 
 		</g:form>
 
+		<!-- Footer -->
+		<footer class="page-footer font-small special-color-dark pt-4">
 
+	    <!-- Copyright -->
+	    <div class="footer-copyright text-center py-3">
+	      Please be advised that payment cut-off time is at 11pm on banking days.
+	    </div>
+	    <!-- Copyright -->
+
+		</footer>
+		<!-- Footer -->
 
 	  </div>
 	</div>
