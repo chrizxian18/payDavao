@@ -21,19 +21,19 @@
 		  	<g:img class="images mx-auto d-block" dir="images" file="banner4.png" />
 		  	<h2 style="text-align: center;">Welcome to Davao City Payment Portal</h2>
 		  	<g:if test="${flash.message}">
-	            <div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${flash.message}</div>
+	            <div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${flash.message}</div>
 	        </g:if>
 	        <g:if test="${flash.error}">
-	            <div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${flash.error}</div>
+	            <div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${flash.error}</div>
 	        </g:if>
 		  	<br>
 		  	<g:if test ="${message}">
-		  		<div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${message}</div>
+		  		<div style="background-color:#FFF3F3; color:red; border: solid thin; padding: 10px;" clas="material-icons"><i class="material-icons" style="color:red; font-size:15px;">warning</i> ${message}</div>
 			</g:if>
 			<g:if test ="${messageSuccess}">
-				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${messageSuccess}</div>
+				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> ${messageSuccess}</div>
 				<br>
-				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons" id="message"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> Kindly go to the City Treasurer Office for your Official Receipt</div>
+				<div style="background-color:#F3F8FC; color:#0967BD; border: solid thin; padding: 10px;" clas="material-icons"><i class="material-icons" style="color:#0967BD; font-size:15px;">error</i> Kindly go to the City Treasurer Office for your Official Receipt</div>
 			 </g:if>
 
 			<g:if test ="${params.retrievalReferenceCode}">
