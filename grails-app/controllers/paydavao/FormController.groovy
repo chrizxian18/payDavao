@@ -63,7 +63,7 @@ class FormController {
                     respond form.errors, view:'index'
                     return
                 }
-                    log.info "success, params:" + params + "form: ${form}"
+
             } 
             else {
                 def message = "Error: Invalid OPTN / Reference Number!" //+ response.message
