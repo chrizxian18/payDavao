@@ -31,15 +31,15 @@
 		    <label for="payorName">Payor Name</label>
 		    <input required="required" type="text" name="payorName"class="form-control" value="${params.payorName}">
 		  </div>
-		  <div class="form-group">
+		 %{--  <div class="form-group">
 		    <label for="email">Email Address</label>
 		    <input required="required" type="email" name="email" class="form-control" aria-describedby="emailHelp">
-		  </div>
-		  <div class="form-group">
+		  </div> --}%
+		  %{-- <div class="form-group">
 		    <label for="mobileNumber">Mobile Number</label>
 		    <input type="text" name="mobileNumber" class="form-control" maxlength="13" placeholder="+63xxxxxxxxxx">
-		  </div>
-		  <div class="form-group">
+		  </div> --}%
+		  %{-- <div class="form-group">
 		    <label for="typeOfFee">Type of Fee</label>
 		    <select name="typeOfFee" required="required" class="form-control">
 		      <option value="" disabled selected>Select type of fee</option>
@@ -47,11 +47,11 @@
 		      <option value="MISCELLANEOUS">MISCELLANEOUS</option>
 		      <option value="REALPROPERTY">REALPROPERTY</option>
 		    </select>
-		  </div>
-		  <div class="form-group">
+		  </div> --}%
+		  %{-- <div class="form-group">
 		    <label for="optn">Enter your Online Payment Transaction Number (OPTN) / Reference Number</label>
 		    <input  required="required" name="optn" type="text" class="form-control" maxlength="29">
-		  </div>
+		  </div> --}%
 		  <br>
 		  <div class="form-group">
 		  	<div class="g-recaptcha" data-sitekey="6LfJkXYUAAAAAFRpa8Itf9zrxE_ZEILLbg2rJsOv"></div>
@@ -77,7 +77,7 @@
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 			        %{-- <button type="button" class="btn btn-primary">Save changes</button> --}%
-			        <g:actionSubmit action="save" value="Yes" class="btn btn-primary" />
+			        <g:actionSubmit action="test" value="Yes" class="btn btn-primary" />
 			      </div>
 			    </div>
 			  </div>

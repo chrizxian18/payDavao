@@ -13,7 +13,7 @@ import static java.util.Calendar.*;
 class HttpService {
 
 
-
+    def uniqueStringGeneratorService
 
     def serviceMethod() {
 
@@ -129,28 +129,31 @@ class HttpService {
         return payloadMap
     }
 
-    // def testSendToIpg(params) {
-    //     def amount = "3399.66"
-    //     // def referenceCode = "765432100006666000530192350803423"
-    //     def referenceCode = params.id
-    //     def serviceType = "REALPROPERTY"
-    //     def terminalID = "52"
-    //     def securityToken = generateSecurityToken(amount, terminalID, referenceCode)
-    //     // def currency = "USD"
-    //     def currency = "PHP"
-    //     def payloadMap = [:]
-    //      payloadMap.amount = amount
-    //      payloadMap.terminalID = terminalID
-    //      payloadMap.referenceCode = referenceCode
-    //      payloadMap.serviceType = serviceType
-    //      payloadMap.securityToken = securityToken
-    //      payloadMap.currency = currency
-    //     log.info "payload:" + payloadMap
-    //     return payloadMap
-    // }
+    def testSendToIpg() {
+        def amount = "133.12"
+        // def referenceCode = "765432100006666000530192350803423"
+        // def referenceCode = params.id
+        def referenceCode = uniqueStringGeneratorService.generateDateWithUUIDString()
+        def serviceType = "REALPROPERTY"
+        def terminalID = "52"
+        // def terminalID = "99"
+        def securityToken = generateSecurityToken(amount, terminalID, referenceCode)
+        // def currency = "USD"
+        def currency = "PHP"
+        def payloadMap = [:]
+         payloadMap.amount = amount
+         payloadMap.terminalID = terminalID
+         payloadMap.referenceCode = referenceCode
+         payloadMap.serviceType = serviceType
+         payloadMap.securityToken = securityToken
+         payloadMap.currency = currency
+        log.info "payload:" + payloadMap
+        return payloadMap
+    }
 
 
     def generateSecurityToken = { amount, terminalID, referenceCode ->
+        // def transactionKey = "d92e0eef855c73ccc133baa4b3f347b11e1c9fa8"
         def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249"
         String requestToken = DigestUtils.sha1Hex(terminalID + referenceCode + amount + "{" + transactionKey + "}");
         log.info "requestToken:" + requestToken
