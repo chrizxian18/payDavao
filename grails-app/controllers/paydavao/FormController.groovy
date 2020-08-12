@@ -6,7 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 class FormController {
 
-    FormService formService
+    // FormService formService
     HttpService httpService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -28,60 +28,61 @@ class FormController {
     //     respond new Form(params)
     // }
 
-    def save(Form form) {
-        if (form == null) {
-            notFound()
-            return
-        }
-        log.info "params:" + params
-        def captcha = params.get("g-recaptcha-response")
-        def captchaResponse = httpService.verifyCaptcha(captcha)
-        log.info "captchaResponse:" + captchaResponse
+    // def save(Form form) {
+    //     if (form == null) {
+    //         notFound()
+    //         return
+    //     }
+    //     log.info "params:" + params
+    //     def captcha = params.get("g-recaptcha-response")
+    //     def captchaResponse = httpService.verifyCaptcha(captcha)
+    //     log.info "captchaResponse:" + captchaResponse
 
-        if (captchaResponse.success == true) {
-            def response = httpService.verifyPaymentDetails(params)
-            log.info "response of httpService.verifyPaymentDetails:" + response
-            def result = response?.get("Result")
-            log.info "result of verfication:" + result
-            if (response == null) {
-                log.info "Failed to access the City Government Gateway Server"
-                flash.error = "Failed to access the City Government Gateway Server"
-                redirect action:"index"
-                return
-            }
-            else if (result == 1) {
+    //     if (captchaResponse.success == true) {
+    //         def response = httpService.verifyPaymentDetails(params)
+    //         log.info "response of httpService.verifyPaymentDetails:" + response
+    //         def result = response?.get("Result")
+    //         log.info "result of verfication:" + result
+    //         if (response == null) {
+    //             log.info "Failed to access the City Government Gateway Server"
+    //             flash.error = "Failed to access the City Government Gateway Server"
+    //             redirect action:"index"
+    //             return
+    //         }
+    //         else if (result == 1) {
                 
-                try {
-                    log.info "params when saving" + params
-                    formService.save(form)
-                    def ipgResult = httpService.sendToIpg(params,response)
-                    // redirect(url:"http://192.168.48.114:9090/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
-                    redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
+    //             try {
+    //                 log.info "params when saving" + params
+    //                 formService.save(form)
+    //                 def ipgResult = httpService.sendToIpg(params,response)
+    //                 // redirect(url:"http://192.168.48.114:9090/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
+    //                 redirect(url:"https://testipg.apollo.com.ph:8443/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
 
-                } catch (ValidationException e) {
-                	log.info "ValidationException:" + e
-                    respond form.errors, view:'index'
-                    return
-                }
+    //             } catch (ValidationException e) {
+    //             	log.info "ValidationException:" + e
+    //                 respond form.errors, view:'index'
+    //                 return
+    //             }
 
-            } 
-            else {
-                def message = "Error: Invalid OPTN / Reference Number!" //+ response.message
-                log.info "Error:" + response.message
-                redirect (action:"fail", params:[message:message])
-                return
-            }
-        }
-        else {
-            flash.error = "Prove that you are not a robot!" 
-                redirect action:"index"
-                return
-        }
-    }
+    //         } 
+    //         else {
+    //             def message = "Error: Invalid OPTN / Reference Number!" //+ response.message
+    //             log.info "Error:" + response.message
+    //             redirect (action:"fail", params:[message:message])
+    //             return
+    //         }
+    //     }
+    //     else {
+    //         flash.error = "Prove that you are not a robot!" 
+    //             redirect action:"index"
+    //             return
+    //     }
+    // }
 
 
     def test() {
-            def ipgResult = httpService.testSendToIpg()
+        log.info "params: ${params}"
+            def ipgResult = httpService.testSendToIpg(params)
             log.info "ipgResult of test:" + ipgResult
             log.info "${ipgResult.amount}"
             // redirect(url:"http://192.168.8.100:8080/transaction/verify?amount=${ipgResult.amount}&terminalID=${ipgResult.terminalID}&referenceCode=${ipgResult.referenceCode}&securityToken=${ipgResult.securityToken}&serviceType=${ipgResult.serviceType}")
@@ -94,23 +95,23 @@ class FormController {
         def message = ""
         // ['referenceCode':'M8751118028067', 'serviceType':'MISCELLANEOUS', 'amount':'230.00', 'serviceChargeFeeText':'PHP4.60', 'securityToken':'971dbdc497b7006e01464a6c78394623a99f015f', 'disableEmailClient':'false', 'merchantName':'LGU DAVAO - IPG', 'serviceFeeLabel':'Service Fee', 'serviceChargeFee':'4.60', 'total':'234.6', 'interceptor':'verify', 'retrievalReferenceCode':'830416029514', 'message':'Successful approval/completion.', 'action':'success', 'format':null, 'controller':'form']
         if (params.retrievalReferenceCode) {
-            def amount = params.amount
-            def terminalID = "52"
-            def referenceCode = params.referenceCode
-            def requestSecurityToken = httpService.generateSecurityToken(amount, terminalID, referenceCode)
-            log.info "requestSecurityToken:" + requestSecurityToken
-            def result = httpService.generateResponseToken(params, requestSecurityToken)
-            log.info "result:" + result
-            if (result != params?.securityToken) {
-                message = "Invalid securityToken!"
-                [message:message]
-            }
-            else {
-                def response = httpService.postPaymentDetails(params)
-                log.info "response:" + response
+            // def amount = params.amount
+            // def terminalID = "52"
+            // def referenceCode = params.referenceCode
+            // def requestSecurityToken = httpService.generateSecurityToken(amount, terminalID, referenceCode)
+            // log.info "requestSecurityToken:" + requestSecurityToken
+            // def result = httpService.generateResponseToken(params, requestSecurityToken)
+            // log.info "result:" + result
+            // if (result != params?.securityToken) {
+            //     message = "Invalid securityToken!"
+            //     [message:message]
+            // }
+            // else {
+                // def response = httpService.postPaymentDetails(params)
+                // log.info "response:" + response
                 message = "Payment Successful"
                  [messageSuccess:message]
-            }
+            // }
         }
         else {
             log.info "No RRN"

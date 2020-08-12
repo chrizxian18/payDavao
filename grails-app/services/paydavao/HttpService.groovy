@@ -13,7 +13,6 @@ import static java.util.Calendar.*;
 class HttpService {
 
 
-    def uniqueStringGeneratorService
 
     def serviceMethod() {
 
@@ -129,13 +128,15 @@ class HttpService {
         return payloadMap
     }
 
-    def testSendToIpg() {
-        def amount = "133.12"
+    def testSendToIpg(params) {
+        // def amount = "133.12"
+        def amount = params.amount
         // def referenceCode = "765432100006666000530192350803423"
         // def referenceCode = params.id
-        def referenceCode = uniqueStringGeneratorService.generateDateWithUUIDString()
+        def referenceCode = generateDateWithUUIDString()
         def serviceType = "REALPROPERTY"
         def terminalID = "52"
+        // def terminalID = "101"
         // def terminalID = "99"
         def securityToken = generateSecurityToken(amount, terminalID, referenceCode)
         // def currency = "USD"
@@ -154,7 +155,9 @@ class HttpService {
 
     def generateSecurityToken = { amount, terminalID, referenceCode ->
         // def transactionKey = "d92e0eef855c73ccc133baa4b3f347b11e1c9fa8"
-        def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249"
+        def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249" //key for TID52
+        // def transactionKey = "5f3b8be634f9ee4cfb513b91b494a99cb18257d8" //key for TID111
+        amount = amount.toBigDecimal().setScale(2).toString()
         String requestToken = DigestUtils.sha1Hex(terminalID + referenceCode + amount + "{" + transactionKey + "}");
         log.info "requestToken:" + requestToken
         return requestToken
@@ -166,10 +169,26 @@ class HttpService {
         def requestToken = requestSecurityToken 
         def amount = params.amount
         def retrievalReferenceCode = params.retrievalReferenceCode
-        def transactionKey = "ae19f5a6575d4eeceacbec06c17477a5e922c249"
+        def transactionKey = "5f3b8be634f9ee4cfb513b91b494a99cb18257d8"
         // String responseToken = DigestUtils.sha1Hex(requestToken + amount + retrievalReferenceCode + "{" + transactionKey + "}");
         String responseToken = DigestUtils.sha1Hex(requestToken + "{" + transactionKey + "}");
         log.info "responseToken:" + responseToken
         return responseToken
+    }
+
+
+    def generateDateWithUUIDString(){
+        String uuid = generateUUID()
+        def sdformat = new java.text.SimpleDateFormat("yyyyMMddHHmmss")
+        def today = new Date()
+        def dateString = sdformat.format(today)
+        def dateWithUUIDString = dateString + "-" + uuid
+        log.info "dateWithUUIDString:" + dateWithUUIDString
+        return dateWithUUIDString
+    }
+
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
     }
 }

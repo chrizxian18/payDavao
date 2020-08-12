@@ -4,7 +4,8 @@
 	<title>Davao City Payment Portal</title>
 	<asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
-	<script src='https://www.google.com/recaptcha/api.js'></script>
+	
+	%{-- // <script src='https://www.google.com/recaptcha/api.js'></script> --}%
 	<asset:javascript src="application.js"/>
 </head>
 <body>
@@ -28,8 +29,12 @@
 	  	<br>
 		<g:form controller="form" enctype="multipart/form-data" method="post" >
 		  <div class="form-group">
-		    <label for="payorName">Payor Name</label>
+		    <label for="payorName">Name</label>
 		    <input required="required" type="text" name="payorName"class="form-control" value="${params.payorName}">
+		  </div>
+		  <div class="form-group">
+		    <label for="amount">Amount</label>
+		    <input required="required" type="text" name="amount"class="form-control" value="${params.amount}">
 		  </div>
 		 %{--  <div class="form-group">
 		    <label for="email">Email Address</label>
@@ -53,9 +58,9 @@
 		    <input  required="required" name="optn" type="text" class="form-control" maxlength="29">
 		  </div> --}%
 		  <br>
-		  <div class="form-group">
+	%{-- 	  <div class="form-group">
 		  	<div class="g-recaptcha" data-sitekey="6LfJkXYUAAAAAFRpa8Itf9zrxE_ZEILLbg2rJsOv"></div>
-		  </div>
+		  </div> --}%
 		  	
 		  	<!-- Button trigger modal -->
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmSubmitModal">
