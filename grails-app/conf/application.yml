@@ -132,3 +132,11 @@ environments:
 
 server:
     port: 9090
+
+paymaya:
+    key: pk-MOfNKu3FmHMVHtjyjG7vhr7vFevRkWxmxYL1Yq6iFk5
+    url: "https://pg-sandbox.paymaya.com/payby/v2/paymaya/payments/"
+    redirecturl:
+        success: "http://localhost:9090/form/success?message=Successful"
+        failure: "http://localhost:9090/form/fail?message=Failed"
+        cancel: "http://localhost:9090/form/fail?imessage=Canceled"

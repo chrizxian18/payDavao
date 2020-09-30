@@ -63,7 +63,7 @@ appender("ROLLING", RollingFileAppender) {
     Pattern = "%d %level %thread %mdc %logger - %m%n"
   }
   rollingPolicy(TimeBasedRollingPolicy) {
-    FileNamePattern = "${WEBAPP_DIR}/log/payDAvao-%d{yyyy-MM}.log.zip"
+    FileNamePattern = "${WEBAPP_DIR}/log/payDAvao-%d{yyyy-MM-dd}.log.zip"
   }
 }
 

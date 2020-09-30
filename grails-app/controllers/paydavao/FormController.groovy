@@ -94,7 +94,7 @@ class FormController {
         log.info "params in successPage:" + params
         def message = ""
         // ['referenceCode':'M8751118028067', 'serviceType':'MISCELLANEOUS', 'amount':'230.00', 'serviceChargeFeeText':'PHP4.60', 'securityToken':'971dbdc497b7006e01464a6c78394623a99f015f', 'disableEmailClient':'false', 'merchantName':'LGU DAVAO - IPG', 'serviceFeeLabel':'Service Fee', 'serviceChargeFee':'4.60', 'total':'234.6', 'interceptor':'verify', 'retrievalReferenceCode':'830416029514', 'message':'Successful approval/completion.', 'action':'success', 'format':null, 'controller':'form']
-        if (params.retrievalReferenceCode) {
+        // if (params.retrievalReferenceCode) {
             // def amount = params.amount
             // def terminalID = "52"
             // def referenceCode = params.referenceCode
@@ -112,12 +112,12 @@ class FormController {
                 message = "Payment Successful"
                  [messageSuccess:message]
             // }
-        }
-        else {
-            log.info "No RRN"
-            message = "RRN not found!"
-            [message:message]
-        }
+        // }
+        // else {
+        //     log.info "No RRN"
+        //     message = "RRN not found!"
+        //     [message:message]
+        // }
 
     }
 
@@ -178,6 +178,23 @@ class FormController {
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
+        }
+    }
+
+    def paymaya() {
+        def paymayaResult = httpService.sendToPayMaya(params)
+        if (!paymayaResult.success) {
+            flash.error = paymayaResult 
+                redirect action:"index"
+                return
+        } else {
+            if (paymayaResult.redirectUrl) {
+                redirect(url:paymayaResult.redirectUrl)
+            } else {
+                flash.error = "Error in payment via PayMaya"
+                redirect action:"index"
+                return
+            }
         }
     }
 }

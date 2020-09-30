@@ -7,13 +7,15 @@ import groovy.json.*
 import grails.converters.JSON
 import org.apache.commons.codec.digest.DigestUtils;
 import static java.util.Calendar.*;
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 
 
 @Transactional
 class HttpService {
 
 
-
+    def grailsApplication
     def serviceMethod() {
 
     }
@@ -191,4 +193,72 @@ class HttpService {
     public static String generateUUID() {
         return UUID.randomUUID().toString();
     }
+
+    
+
+    def sendToPayMaya(params) {
+        log.info "sendToPayMaya.params:" + params
+        def payMayaURL =  grailsApplication.config.getProperty('paymaya.url')
+        log.info "payMayaURL: ${payMayaURL}"
+        def payloadData = [:]
+        def output = [:]
+        
+        try {
+            def totalAmount = [:]
+            def redirectUrl = [:]
+            totalAmount.currency = "PHP"
+            totalAmount.value = params.amount.toBigDecimal().setScale(2).toString()
+            redirectUrl.success = grailsApplication.config.getProperty("paymaya.redirecturl.success")
+            redirectUrl.failure = grailsApplication.config.getProperty("paymaya.redirecturl.failure")
+            redirectUrl.cancel = grailsApplication.config.getProperty("paymaya.redirecturl.cancel")
+            payloadData.put("totalAmount", totalAmount)
+            payloadData.put("redirectUrl", redirectUrl)
+            payloadData.put("requestReferenceNumber", "6319921")
+            
+            String payload = payloadData as JSON
+            System.setProperty("https.protocols", "TLSv1.2");
+            def response = postToURL(payMayaURL,payload)
+            output = new groovy.json.JsonSlurper().parseText(response)
+            log.info "response output: ${output}"
+            output.success = true
+        } catch(Exception e) {
+            log.error "sendToPayMaya Exception", e
+            output.success = false
+            output.error = e
+        }
+        return output
+    }
+
+    def postToURL = { urlString, payload ->
+        log.info "postToURL payload: ${payload}"
+        def paymayaKey =  grailsApplication.config.getProperty('paymaya.key')
+        log.info "paymayaKey: ${paymayaKey}"
+        def paymayaKeyBase64 = "${paymayaKey}:".bytes.encodeBase64().toString()
+        log.info "paymayaKeyBase64:${paymayaKeyBase64}"
+
+        def authHeader = "Basic ${paymayaKeyBase64}"
+        def url = new URL(urlString)
+        def connection = url.openConnection()
+        def output
+        try {
+            connection.setRequestMethod("POST")
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Authorization", authHeader);
+            connection.doOutput = true
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(10000);
+
+            def writer = connection.getOutputStream()
+            writer.write(payload.getBytes()); 
+            writer.flush()
+            output = connection.getInputStream().getText();
+
+        } finally {
+            connection.disconnect();
+        }
+        return output
+    }
+
+
 }
